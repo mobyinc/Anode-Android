@@ -1,5 +1,6 @@
 package com.builtbymoby.anode.android;
 
+
 import org.apache.http.client.methods.HttpUriRequest;
 
 import android.content.Context;
@@ -40,6 +41,7 @@ public class AnodeClient {
 		}
 		
 	}
+	
 	
 	
 	/**
@@ -100,11 +102,9 @@ public class AnodeClient {
 			
 		}catch(Throwable t){
 			Log.e("AnodeClient", "AnodeClient.fetObjectsWithRequest()", t);
-		}
-		
+		}	
 	}
-	
-	
+		
 	
 	public void setResponseListener(ResponseListener responseListener){
 		this.responseListener = responseListener;
@@ -116,9 +116,7 @@ public class AnodeClient {
 	}
 	
 	
-	/**
-	 * 
-	 */
+
 	public static abstract class ResponseListener{
 		
 		public ResponseListener(){}
