@@ -93,11 +93,9 @@ public class AnodeClient {
 	protected void fetchObjectsWithRequest(final HttpUriRequest request){
 		
 		try{
-			
-			System.out.println("######## fetchObjectsWithRequest called. " );
+			Log.d("AnodeClient", "AnodeClient.fetchObjectsWithRequest()");
 			
 			AnodeHTTPClient anodeHTTPClient = AnodeHTTPClient.getInstance();
-		
 			anodeHTTPClient.get(this, request);
 			
 		}catch(Throwable t){
