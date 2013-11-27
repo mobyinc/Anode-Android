@@ -55,7 +55,7 @@ public class AnodeObject extends AnodeClient {
 	// TODO: constructor for encoded cached copy
 	
 	public Long getObjectId() {
-		return (Long)getObject("id");
+		return getLong("id");
 	}
 	
 	public void setObjectId(Long objectId) {
@@ -125,9 +125,17 @@ public class AnodeObject extends AnodeClient {
 		return data.optBoolean(key, false);
 	}
 	
-	public Integer getInt(String key) {
+	public Integer getInteger(String key) {
 		try {
 			return data.getInt(key);
+		} catch (JSONException e) {
+			return null;
+		}
+	}
+	
+	public Long getLong(String key) {
+		try {
+			return data.getLong(key);
 		} catch (JSONException e) {
 			return null;
 		}
@@ -169,8 +177,7 @@ public class AnodeObject extends AnodeClient {
 	}
 	
 	public AnodeQuery getQuery(String relationshipName, String type) {
-		// TOOD: implement relationships
-		return null;
+		return new AnodeQuery(type, this.type, relationshipName, this.getObjectId());
 	}
 	
 	/*
