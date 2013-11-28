@@ -125,7 +125,12 @@ public class AnodeObject extends AnodeClient {
 	}
 	
 	public Long getLong(String key) {
-		return (Long)data.get(key);
+		
+		try{
+		    return (Long)data.get(key);
+		}catch(ClassCastException cce){
+			return new Long((Integer)data.get(key));
+		}
 	}
 	
 	public Date getDate(String key) {
