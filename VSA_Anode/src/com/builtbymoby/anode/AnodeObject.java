@@ -1,11 +1,15 @@
 package com.builtbymoby.anode;
 
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.http.NameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,7 +21,7 @@ public class AnodeObject extends AnodeClient {
 	private Boolean dirty = false;
 	private Boolean destroyOnSave = false;
 	
-	private JSONObject data;
+	private HashMap<String, Object> data = new HashMap<String, Object>();
 	
 	// TODO: file storage
 	
@@ -59,7 +63,7 @@ public class AnodeObject extends AnodeClient {
 	}
 	
 	public void setObjectId(Long objectId) {
-		setObject(objectId, "id");
+		setObject("id", objectId);
 	}
 	
 	public Date getCreatedAt() {
@@ -84,60 +88,56 @@ public class AnodeObject extends AnodeClient {
 	
 	public void setDestroyOnSave(Boolean shouldDestroy) {
 		destroyOnSave = shouldDestroy;
-		
-		try {
-			data.put("_destroy", destroyOnSave);
-		} catch (JSONException e) {
-		}		
+		data.put("_destroy", destroyOnSave);		
 	}
 	
-	public void setObject(Object object, String key) {
+	public void setObject(String key, Object object) {
 		if (key.contains("__")) {
 			throw new AnodeException(AnodeException.ILLEGAL_ATTRIBUTE, "cannot access protected attribute " + key);
 		}
 		
-		Object existingValue = data.opt(key);
+		Object existingValue = data.get(key);
 		
-		if (object == null) {
-			removeObject(key);
-		} else if (existingValue == null || !existingValue.equals(object)) {
+		if (!existingValue.equals(object)) {
 			dirty = true;
-			try {
-				data.put(key, object);
-			} catch (JSONException e) {
-			}			
+			data.put(key, object);
 		}
 	}
 	
 	public void removeObject(String key) {
-		// TODO: what is the correct string representation of null?
+		data.put(key, null);
 	}
 	
 	public Object getObject(String key) {		
-		return data.opt(key);
+		return data.get(key);
 	}
 	
 	public String getString(String key) {
-		return data.optString(key);
+		return (String)data.get(key);
 	}
 	
 	public Boolean getBoolean(String key) {
-		return data.optBoolean(key, false);
+		return (Boolean)data.get(key);
 	}
 	
 	public Integer getInteger(String key) {
-		try {
-			return data.getInt(key);
-		} catch (JSONException e) {
-			return null;
-		}
+		return (Integer)data.get(key);
 	}
 	
 	public Long getLong(String key) {
-		try {
-			return data.getLong(key);
-		} catch (JSONException e) {
-			return null;
+		return (Long)data.get(key);
+	}
+	
+	public Date getDate(String key) {
+		return (Date)data.get(key);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<AnodeObject> getList(String key) {
+		if (data.containsKey(key) && data.get(key) instanceof List<?>) {
+			return (List<AnodeObject>)data.get(key);
+		} else {
+			return new ArrayList<AnodeObject>();
 		}
 	}
 	
@@ -187,11 +187,62 @@ public class AnodeObject extends AnodeClient {
 	// TODO: perform request (for CRUD operations)
 	
 	private static void applyJSON(JSONObject json, AnodeObject object) {
-		object.data = json;
+		object.data = new HashMap<String, Object>();
 		object.dirty = false;
 		object.emptyObject = false;
 		
-		// Handle special data types
+		Iterator<?> keys = json.keys();
+		
+		while (keys.hasNext()) {
+			String key = (String)keys.next();			
+			Object value = json.opt(key);			
+			
+			// handle special types which need to be converted
+			// other types pass through untouched
+			if (value instanceof String) {
+				String stringValue = value.toString();
+				
+				if (isDateString(stringValue)) {
+					try {
+						value = dateFormat.parse(stringValue);
+					} catch (ParseException e) {						
+					}
+				}
+				
+				// TODO: null string representation check?
+			} else if (value instanceof JSONArray) {
+				JSONArray arrayValue = (JSONArray)value;
+				
+				List<AnodeObject> list = new ArrayList<AnodeObject>();
+				
+				for (int i = 0; i < arrayValue.length(); i++) {
+					JSONObject jsonObject = arrayValue.optJSONObject(i);
+					if (jsonObject != null) {
+						AnodeObject listObject = AnodeObject.createFromJson(jsonObject);
+						list.add(listObject);
+					}
+				}
+				
+				value = list;
+			} else if (value instanceof JSONObject) {
+				JSONObject jsonValue = (JSONObject)value;
+				
+				String type = jsonValue.optString("__type");
+				
+				if (!TextUtils.isEmpty(type)) {
+					value = AnodeObject.createFromJson(jsonValue);
+				}
+			}
+			
+			if (value != null) {
+				object.data.put(key, value);
+			}
+		}
+	}
+	
+	private static boolean isDateString(String value) {
+		String pattern = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}[+-]\\d{4}";
+		return value.matches(pattern);
 	}
 	
 	private void performRequest(HttpVerb verb, String httpBody, CompletionCallback callback) {
@@ -211,7 +262,7 @@ public class AnodeObject extends AnodeClient {
 				throw new AnodeException(AnodeException.INVALID_JSON, "invalid object id on root node", e);
 			}
 			
-			// TODO: apply
+			applyJSON(json, this);
 		} else {
 			throw new AnodeException(AnodeException.INVALID_JSON, "missing object root node in server response");
 		}

@@ -3,6 +3,7 @@ package com.builtbymoby.anode;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +20,11 @@ import com.builtbymoby.anode.utility.inflector.English;
 
 import android.annotation.SuppressLint;
 import android.net.Uri;
-import android.util.Log;
 
+@SuppressLint("SimpleDateFormat")
 public class AnodeClient {
+	static protected SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZ");
+	
 	protected String type = "";
 	
 	@SuppressLint("DefaultLocale")
