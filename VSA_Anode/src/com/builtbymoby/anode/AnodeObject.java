@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.http.NameValuePair;
 import org.json.JSONArray;
@@ -122,6 +121,10 @@ public class AnodeObject extends AnodeClient {
 	
 	public Integer getInteger(String key) {
 		return (Integer)data.get(key);
+	}
+	
+	public Double getDouble(String key) {
+		   return (Double)(data.get(key));
 	}
 	
 	public Long getLong(String key) {
