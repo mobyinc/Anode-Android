@@ -1,5 +1,6 @@
 package com.builtbymoby.anode;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,7 +15,7 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
-public class AnodeObject extends AnodeClient {
+public class AnodeObject extends AnodeClient implements Serializable {
 
 	private Boolean emptyObject = false;
 	private Boolean dirty = false;
@@ -28,10 +29,10 @@ public class AnodeObject extends AnodeClient {
 		super(type);
 	}
 	
-	public AnodeObject(String type, long objectId) {
+	public AnodeObject(String type, Long objectId) {
 		super(type);
 		
-		setObjectId(objectId);
+		data.put("id", objectId);		
 		emptyObject = true;
 	}
 	
@@ -59,10 +60,6 @@ public class AnodeObject extends AnodeClient {
 	
 	public Long getObjectId() {
 		return getLong("id");
-	}
-	
-	public void setObjectId(Long objectId) {
-		setObject("id", objectId);
 	}
 	
 	public Date getCreatedAt() {
@@ -97,7 +94,7 @@ public class AnodeObject extends AnodeClient {
 		
 		Object existingValue = data.get(key);
 		
-		if (!existingValue.equals(object)) {
+		if (existingValue == null || !existingValue.equals(object)) {
 			dirty = true;
 			data.put(key, object);
 		}
