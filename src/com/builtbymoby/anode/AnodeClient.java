@@ -1,5 +1,6 @@
 package com.builtbymoby.anode;
 
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -22,7 +23,10 @@ import android.annotation.SuppressLint;
 import android.net.Uri;
 
 @SuppressLint("SimpleDateFormat")
-public class AnodeClient {
+public class AnodeClient implements Serializable {
+
+	private static final long serialVersionUID = -4825268292630127746L;
+
 	static protected SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZ");
 	
 	protected String type = "";

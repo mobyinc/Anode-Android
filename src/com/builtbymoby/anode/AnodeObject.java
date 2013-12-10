@@ -13,10 +13,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.builtbymoby.anode.utility.SerializableJSONObject;
+
 import android.text.TextUtils;
+import android.util.Log;
 
 public class AnodeObject extends AnodeClient implements Serializable {
-
+	private static final long serialVersionUID = 3788378882736332423L;
+	
 	private Boolean emptyObject = false;
 	private Boolean dirty = false;
 	private Boolean destroyOnSave = false;
@@ -236,6 +240,13 @@ public class AnodeObject extends AnodeClient implements Serializable {
 				
 				if (!TextUtils.isEmpty(type)) {
 					value = AnodeObject.createFromJson(jsonValue);
+				} else {
+					try {
+						value = SerializableJSONObject.fromJSONObject(jsonValue);
+					} catch (JSONException e) {
+						Log.e("AnodeObject", e.getLocalizedMessage());
+						value = null;
+					}
 				}
 			}
 			
@@ -243,6 +254,11 @@ public class AnodeObject extends AnodeClient implements Serializable {
 				object.data.put(key, value);
 			}
 		}
+	}
+	
+	private JSONObject toJson() {
+		// TODO: Implement
+		return new JSONObject();
 	}
 	
 	private static boolean isDateString(String value) {
