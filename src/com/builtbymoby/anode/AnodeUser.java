@@ -7,7 +7,6 @@ import java.util.List;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -15,6 +14,8 @@ import android.text.TextUtils;
 
 public class AnodeUser extends AnodeObject implements Serializable {
 	private static final long serialVersionUID = -856038997436386638L;
+	private static final String CURRENT_USER_CACHE_KEY = "current_user_cach_key";
+	
 	private static AnodeUser currentUser = null;
 	
 	private Boolean authenticated;
@@ -29,14 +30,22 @@ public class AnodeUser extends AnodeObject implements Serializable {
 	
 	public AnodeUser(String username, String password) {
 		super("user");
+		this.setUsername(username);
+		this.setPassword(password);
 	}
 	
-	public static AnodeUser currentUser() {
+	// TODO: implement cached user object
+	public static AnodeUser getCurrentUser() {
 		if (AnodeUser.currentUser == null) {
-			AnodeUser.currentUser = null;
+			AnodeUser.currentUser = (AnodeUser)AnodeCache.getInstance().getObject(CURRENT_USER_CACHE_KEY);
 		}
 		
 		return AnodeUser.currentUser;
+	}
+	
+	public static void setCurrentUser(AnodeUser user) {
+		Anode.setUserToken(user.getToken());
+		AnodeCache.getInstance().putObject(CURRENT_USER_CACHE_KEY, user);
 	}
 	
 	public static AnodeUser createFromJson(JSONObject json) {	
@@ -60,9 +69,10 @@ public class AnodeUser extends AnodeObject implements Serializable {
 	}
 	
 	public static void login(String username, String password, final LoginCallback callback) {
-		List<NameValuePair> parameters = new ArrayList<NameValuePair>();
+		List<NameValuePair> parameters = null;
 		
 		if (username != null && password != null) {
+			parameters = new ArrayList<NameValuePair>();
 			parameters.add(new BasicNameValuePair("username", username));
 			parameters.add(new BasicNameValuePair("password", password));
 		}
@@ -77,6 +87,8 @@ public class AnodeUser extends AnodeObject implements Serializable {
 					AnodeUser user = AnodeUser.createFromJson(node);
 					user.authenticated = true;
 					
+					AnodeUser.setCurrentUser(user);
+					
 					callback.done(user);
 				} else {
 					throw new AnodeException(AnodeException.INVALID_JSON, "unexpected root node in login JSON response");
@@ -90,8 +102,50 @@ public class AnodeUser extends AnodeObject implements Serializable {
 		});
 	}
 	
+	public static void logout() {
+		AnodeUser.currentUser = null;
+		Anode.setUserToken(null);
+		AnodeCache.getInstance().putObject(CURRENT_USER_CACHE_KEY, null);
+	}
+	
 	public static void refreshLogin(final LoginCallback callback) {
+		if (AnodeUser.getCurrentUser() == null) {
+			callback.fail(new AnodeException(AnodeException.CURRENT_USER_NOT_INITIALIZED, "Cannot refresh login while logged out"));
+		} else {
+			// TODO: other login providers
+			AnodeUser.login(null, null, callback);
+		}
+	}
+	
+	public static void registerDevice() {
+		// TODO: Push notification
+	}
+	
+	public static void resetPassword(String username, final CompletionCallback callback) {
+		List<NameValuePair> parameters = new ArrayList<NameValuePair>();	
+		parameters.add(new BasicNameValuePair("username", username));
 		
+		HttpUriRequest request = buildHttpRequest(HttpVerb.POST, "user", null, "reset_password", parameters);
+		
+		AnodeHttpClient.getInstance().perform(request, new JsonResponseCallback() {
+			@Override
+			public void done(JsonResponse response) {				
+				callback.done(null);				
+			}
+			
+			@Override
+			public void fail(AnodeException e) {
+				callback.fail(e);
+			}
+		});
+	}
+	
+	/*
+	 * Getters / Setters
+	 */
+	
+	public static boolean isLoggedIn() {
+		return getCurrentUser() != null;
 	}
 
 	public String getUsername() {
@@ -112,5 +166,9 @@ public class AnodeUser extends AnodeObject implements Serializable {
 
 	public Boolean isAuthenticated() {
 		return authenticated;
+	}
+	
+	public String getToken() {
+		return getString("__token");
 	}
 }

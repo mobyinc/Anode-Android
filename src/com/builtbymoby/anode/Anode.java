@@ -8,10 +8,10 @@ import android.os.Bundle;
 import android.text.TextUtils;
 
 public class Anode {
-	static Context context;
-	static String baseUrl;
-	static String userToken;
-	static String clientToken;
+	private static Context context;
+	private static String baseUrl;
+	private static String userToken;
+	private static String clientToken;
 	
 	public static void initialize(Context context) throws AnodeException {		
 		ApplicationInfo appInfo = null;
@@ -39,6 +39,11 @@ public class Anode {
 		Anode.clientToken = clientToken;
 		
 		AnodeCache.initialize(context, "ANODE_CACHE", 1024 * 1024 * 5); // 5 MB Cache
+
+		// check for existing user session
+		if (AnodeUser.isLoggedIn()) {
+			Anode.userToken = AnodeUser.getCurrentUser().getToken();
+		}
 	}
 	
 	public static String getBaseUrl() {

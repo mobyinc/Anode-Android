@@ -86,9 +86,9 @@ public class AnodeClient implements Serializable {
 		case POST:
 			
 			request = new HttpPost(buildURI(builder));
+			HttpPost post = (HttpPost)request;
 			
-			if (parameters != null && parameters.size() > 0) {
-				HttpPost post = (HttpPost)request;
+			if (parameters != null && parameters.size() > 0) {				
 				contentType = "application/x-www-form-urlencoded";				
 				
 				try {
@@ -142,7 +142,7 @@ public class AnodeClient implements Serializable {
 		URI uri = null;
 		
 		try {
-			uri = new URI(Anode.baseUrl);
+			uri = new URI(Anode.getBaseUrl());
 		} catch (URISyntaxException e) {			
 			throw new AnodeException(AnodeException.INVALID_BASE_URL, "base url is not a valid url", e);
 		}

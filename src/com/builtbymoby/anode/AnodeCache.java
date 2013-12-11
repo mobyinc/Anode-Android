@@ -93,6 +93,10 @@ public class AnodeCache {
 		}		
 	}
 	
+	public boolean removeObject(String key) {
+		return false;
+	}
+	
 	public void clearCache() {
 		try {
 			this.diskCache.delete();
