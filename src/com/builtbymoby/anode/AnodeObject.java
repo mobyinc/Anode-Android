@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import com.builtbymoby.anode.utility.SerializableJSONObject;
 
+import android.annotation.SuppressLint;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -195,15 +196,15 @@ public class AnodeObject extends AnodeClient implements Serializable {
 	
 	// TODO: perform request (for CRUD operations)
 	
-	private static void applyJSON(JSONObject json, AnodeObject object) {
+	protected static void applyJSON(JSONObject json, AnodeObject object) {
 		object.data = new HashMap<String, Object>();
 		object.dirty = false;
 		object.emptyObject = false;
 		
-		Iterator<?> keys = json.keys();
+		Iterator<String> keys = json.keys();
 		
 		while (keys.hasNext()) {
-			String key = (String)keys.next();			
+			String key = keys.next();			
 			Object value = json.opt(key);			
 			
 			// handle special types which need to be converted
@@ -255,22 +256,60 @@ public class AnodeObject extends AnodeClient implements Serializable {
 			}
 		}
 	}
-	
-	private JSONObject toJson() {
-		// TODO: Implement
-		return new JSONObject();
+		
+	protected JSONObject jsonPostRepresentation() {
+		JSONObject object = new JSONObject();
+		
+		for (String key : data.keySet()) {
+			Object value = data.get(key);
+			
+			if (value instanceof Date){
+				value = dateFormat.format(value);
+			} else if (value instanceof List) {
+				@SuppressWarnings("unchecked")
+				List<AnodeObject> list = (List<AnodeObject>)value;
+				JSONObject objectMap = new JSONObject();
+				
+				for (int i = 0; i < list.size(); i++) {
+					AnodeObject listObject = list.get(i);
+					JSONObject listObjectJson = listObject.jsonPostRepresentation();
+					String name = listObject.isNew() ? String.format("%d", i+100000000) : listObject.getObjectId().toString();
+					try { objectMap.putOpt(name, listObjectJson); } catch (JSONException e) { /* Oh well */ }
+				}
+				
+				key = key + "_attributes";
+				value = objectMap;
+			} else if (value instanceof AnodeObject) {
+				// only supports setting the relationship to an existing (non-new) object
+				AnodeObject subObject = (AnodeObject)value;
+				
+				if (!subObject.isNew()) {
+					key = key + "_id";
+					value = subObject.getObjectId();					
+				} else {
+					key = null;
+					value = null;
+				}
+			}
+			
+			if (key != null && value != null) {
+				try { object.putOpt(key, value); } catch (JSONException e) { /* Oh well */ }
+			}
+		}
+		
+		return object;
 	}
 	
-	private static boolean isDateString(String value) {
+	protected static boolean isDateString(String value) {
 		String pattern = "\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}[+-]\\d{4}";
 		return value.matches(pattern);
 	}
 	
-	private void performRequest(HttpVerb verb, String httpBody, CompletionCallback callback) {
+	protected void performRequest(HttpVerb verb, String httpBody, CompletionCallback callback) {
 		// TODO: implement object operations
 	}
 	
-	private void applyJSONResponse(JsonResponse response) {
+	protected void applyJSONResponse(JsonResponse response) {
 		if (response != null && response.isJSONObject()) {
 			JSONObject json = response.getJSONObject();
 			

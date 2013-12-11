@@ -37,6 +37,8 @@ public class Anode {
 		Anode.context = context;
 		Anode.baseUrl = baseUrl;
 		Anode.clientToken = clientToken;
+		
+		AnodeCache.initialize(context, "ANODE_CACHE", 1024 * 1024 * 5); // 5 MB Cache
 	}
 	
 	public static String getBaseUrl() {

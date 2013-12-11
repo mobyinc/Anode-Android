@@ -25,11 +25,11 @@ public class AnodeHttpClient {
 	 * @return the singleton instance of AnodeHTTPClient
 	 */
 	public static AnodeHttpClient getInstance() {
-		if (instance == null) {
-			instance = new AnodeHttpClient();
+		if (AnodeHttpClient.instance == null) {
+			AnodeHttpClient.instance = new AnodeHttpClient();
 		}
 		
-		return instance;
+		return AnodeHttpClient.instance;
 	}
 	
 	/**

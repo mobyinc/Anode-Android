@@ -18,6 +18,7 @@ public class AnodeException extends RuntimeException {
 	public static final int SERVER_ERROR = 10;
 	public static final int OBJECT_NOT_FOUND = 11;
 	public static final int ILLEGAL_ATTRIBUTE = 12;
+	public static final int CACHE_NOT_INITIALIZED = 13;
 	
 	private int code = 0;
 	private int httpStatusCode = 0;

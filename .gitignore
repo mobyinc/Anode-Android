@@ -1,7 +1,7 @@
-/VSA_Anode/.classpath
-/VSA_Anode/bin/
-/VSA_Anode/gen/
+.classpath
+/bin
+/gen
 
-/VSA_Anode/project.properties
+/project.properties
 
 .DS_Store

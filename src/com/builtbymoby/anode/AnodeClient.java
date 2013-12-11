@@ -76,6 +76,7 @@ public class AnodeClient implements Serializable {
 	public static HttpUriRequest buildHttpRequest(HttpVerb verb, String type, Long objectId, String action, List<NameValuePair> parameters) {		
 		String path = getPath(type, objectId, action);
 		String token = Anode.getToken();
+		String contentType = "application/json";
 		Uri.Builder builder = getUriBuilder();
 		HttpUriRequest request = null;
 		
@@ -83,10 +84,13 @@ public class AnodeClient implements Serializable {
 		
 		switch (verb) {
 		case POST:
-			request = new HttpPost(builder.build().toString());
+			
+			request = new HttpPost(buildURI(builder));
 			
 			if (parameters != null && parameters.size() > 0) {
 				HttpPost post = (HttpPost)request;
+				contentType = "application/x-www-form-urlencoded";				
+				
 				try {
 					post.setEntity(new UrlEncodedFormEntity(parameters));
 				} catch (UnsupportedEncodingException e) {
@@ -103,12 +107,12 @@ public class AnodeClient implements Serializable {
 				}
 			}
 			
-			request = new HttpGet(builder.build().toString());
+			request = new HttpGet(buildURI(builder));
 			break;
 		}
 						
 		request.setHeader("Accept", "application/json");
-		request.setHeader("Content-Type", "application/json");
+		request.setHeader("Content-Type", contentType);		
 		request.setHeader("Authorization", "Token token=" + token);
 		
 		return request;
@@ -147,6 +151,20 @@ public class AnodeClient implements Serializable {
 		builder.scheme(uri.getScheme()).authority(uri.getAuthority()).path(uri.getPath());
 		
 		return builder;
+	}
+	
+	/**
+	 * Converts Android URI to Java URI
+	 * @param builder
+	 * @return
+	 */
+	protected static URI buildURI(Uri.Builder builder) {
+		Uri uri = builder.build();
+		try {
+			return new URI(uri.getScheme(), uri.getAuthority(), uri.getPath(), uri.getQuery(), uri.getFragment());
+		} catch (URISyntaxException ignored) {
+			return null;
+		}
 	}
 	
 	protected static HttpEntity getJsonHttpEntity(Object json) {
