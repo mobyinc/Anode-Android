@@ -17,8 +17,8 @@ public class AnodePredicate {
 	public JSONObject toJson() {
 		JSONObject object = new JSONObject();
 		try {
-			object.put("left", left);
-			object.put("right", right);
+			object.put("left", getOperandString(left));
+			object.put("right", getOperandString(right));
 			object.put("operator", operator.toString());
 		} catch (JSONException e) {
 			throw new AnodeException(AnodeException.JSON_ENCODING_ERROR, "predicate encoding error");
@@ -45,5 +45,13 @@ public class AnodePredicate {
 	    public String toString() {
 	        return value;
 	    }
+	}
+	
+	private Object getOperandString(Object op) {
+		if (op instanceof Boolean) {
+			return (Boolean)op ? "1" : "0";
+		} else {
+			return op.toString();
+		}
 	}
 }

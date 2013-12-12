@@ -151,7 +151,7 @@ public class AnodeQuery extends AnodeClient{
 		if (predicate != null || limit != null || this.getOrderBy() != null || isRelationship()) {
 			request = buildHttpRequest(HttpVerb.POST, "query");
 			HttpPost post = (HttpPost)request;
-			JSONObject json = getJson(predicate, skip, limit, this.getOrderBy(), this.getOrderDirection(), false);
+			JSONObject json = jsonRequestRepresentation(predicate, skip, limit, this.getOrderBy(), this.getOrderDirection(), false);
 			HttpEntity entity = getJsonHttpEntity(json);
 			post.setEntity(entity);
 		} else {
@@ -209,7 +209,7 @@ public class AnodeQuery extends AnodeClient{
 		});
 	}
 	
-	protected JSONObject getJson(AnodePredicate predicate, Long skip, Integer limit, String orderBy, OrderDirection orderDirection, Boolean countOnly) {
+	protected JSONObject jsonRequestRepresentation(AnodePredicate predicate, Long skip, Integer limit, String orderBy, OrderDirection orderDirection, Boolean countOnly) {
 		JSONObject object = new JSONObject();
 		
 		try {
