@@ -1,6 +1,7 @@
 package com.builtbymoby.anode;
 
 import java.io.Serializable;
+import java.sql.PreparedStatement;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.HttpUriRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -162,7 +164,27 @@ public class AnodeObject extends AnodeClient implements Serializable {
 	// TODO: file support
 	
 	public void save() {
-		// TODO: implement save object
+		save(null);
+	}
+	
+	public void save(CompletionCallback callback) {
+		if (this.destroyOnSave) {
+			destroy(callback);
+			return;
+		}
+		
+		if (!dirty) {
+			if (callback != null) callback.done(this);
+			return;
+		} else if (this.emptyObject) {
+			throw new AnodeException(AnodeException.INVALID_OBJECT_STATE, "Cannot save an empty object. Load by id or reload first");
+		}	
+		
+		HttpVerb httpVerb = getObjectId() == null ? HttpVerb.POST : HttpVerb.PUT;
+		JSONObject json = jsonRequestRepresentation();
+		String jsonString = json.toString();
+		
+		performRequest(httpVerb, jsonString, callback);
 	}
 	
 	public void reload() {
@@ -171,6 +193,10 @@ public class AnodeObject extends AnodeClient implements Serializable {
 	
 	public void destroy() {
 		// TODO: implement destroy object
+	}
+	
+	public void destroy(CompletionCallback callback) {
+		
 	}
 	
 	public void touch() {
@@ -257,8 +283,11 @@ public class AnodeObject extends AnodeClient implements Serializable {
 		}
 	}
 		
-	protected JSONObject jsonPostRepresentation() {
+	protected JSONObject jsonRequestRepresentation() {
+		JSONObject wrapperObject = new JSONObject();
 		JSONObject object = new JSONObject();
+		
+		try { wrapperObject.put(this.type, object); } catch (JSONException ignored) {}
 		
 		for (String key : data.keySet()) {
 			Object value = data.get(key);
@@ -272,7 +301,7 @@ public class AnodeObject extends AnodeClient implements Serializable {
 				
 				for (int i = 0; i < list.size(); i++) {
 					AnodeObject listObject = list.get(i);
-					JSONObject listObjectJson = listObject.jsonPostRepresentation();
+					JSONObject listObjectJson = listObject.jsonRequestRepresentation();
 					String name = listObject.isNew() ? String.format("%d", i+100000000) : listObject.getObjectId().toString();
 					try { objectMap.putOpt(name, listObjectJson); } catch (JSONException e) { /* Oh well */ }
 				}
@@ -293,11 +322,11 @@ public class AnodeObject extends AnodeClient implements Serializable {
 			}
 			
 			if (key != null && value != null) {
-				try { object.putOpt(key, value); } catch (JSONException e) { /* Oh well */ }
+				try { object.putOpt(key, value); } catch (JSONException ignored) {}
 			}
 		}
 		
-		return object;
+		return wrapperObject;
 	}
 	
 	protected static boolean isDateString(String value) {
@@ -305,8 +334,25 @@ public class AnodeObject extends AnodeClient implements Serializable {
 		return value.matches(pattern);
 	}
 	
-	protected void performRequest(HttpVerb verb, String httpBody, CompletionCallback callback) {
-		// TODO: implement object operations
+	protected void performRequest(final HttpVerb verb, final String httpBody, final CompletionCallback callback) {
+		HttpUriRequest request = buildHttpRequest(verb, getObjectId(), null, httpBody);
+		
+		AnodeHttpClient.getInstance().perform(request, new JsonResponseCallback() {
+			@Override
+			public void done(JsonResponse response) {
+				if (verb != HttpVerb.DELETE) {
+					applyJSONResponse(response);
+				}
+				
+				// TODO: issue with returning this and it ending up as a $1 (nested) class and not castable
+				callback.done(this);
+			}
+
+			@Override
+			public void fail(AnodeException e) {
+				callback.fail(e);
+			}
+		});
 	}
 	
 	protected void applyJSONResponse(JsonResponse response) {

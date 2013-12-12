@@ -77,7 +77,7 @@ public class AnodeUser extends AnodeObject implements Serializable {
 			parameters.add(new BasicNameValuePair("password", password));
 		}
 		
-		HttpUriRequest request = buildHttpRequest(HttpVerb.POST, "user", null, "login", parameters);
+		HttpUriRequest request = buildHttpRequest(HttpVerb.POST, "user", null, "login", parameters, null);
 		
 		AnodeHttpClient.getInstance().perform(request, new JsonResponseCallback() {
 			@Override
@@ -125,7 +125,7 @@ public class AnodeUser extends AnodeObject implements Serializable {
 		List<NameValuePair> parameters = new ArrayList<NameValuePair>();	
 		parameters.add(new BasicNameValuePair("username", username));
 		
-		HttpUriRequest request = buildHttpRequest(HttpVerb.POST, "user", null, "reset_password", parameters);
+		HttpUriRequest request = buildHttpRequest(HttpVerb.POST, "user", null, "reset_password", parameters, null);
 		
 		AnodeHttpClient.getInstance().perform(request, new JsonResponseCallback() {
 			@Override

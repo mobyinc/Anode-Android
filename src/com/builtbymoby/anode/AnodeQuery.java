@@ -114,7 +114,7 @@ public class AnodeQuery extends AnodeClient{
 			Log.w("AnodeQuery", "relationships are ignored when calling a specific method");
 		}
 		
-		HttpUriRequest request = buildHttpRequest(HttpVerb.GET, objectId, null, null);
+		HttpUriRequest request = buildHttpRequest(HttpVerb.GET, objectId);
 		
 		fetchObjects(request, new ObjectsResultCallback() {
 			@Override
@@ -149,7 +149,7 @@ public class AnodeQuery extends AnodeClient{
 		HttpUriRequest request = null;
 		
 		if (predicate != null || limit != null || this.getOrderBy() != null || isRelationship()) {
-			request = buildActionHttpRequest(HttpVerb.POST, "query");
+			request = buildHttpRequest(HttpVerb.POST, "query");
 			HttpPost post = (HttpPost)request;
 			JSONObject json = getJson(predicate, skip, limit, this.getOrderBy(), this.getOrderDirection(), false);
 			HttpEntity entity = getJsonHttpEntity(json);

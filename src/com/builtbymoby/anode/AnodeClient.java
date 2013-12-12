@@ -11,8 +11,10 @@ import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.protocol.HTTP;
@@ -73,7 +75,7 @@ public class AnodeClient implements Serializable {
 	 * @param action
 	 * @return
 	 */
-	public static HttpUriRequest buildHttpRequest(HttpVerb verb, String type, Long objectId, String action, List<NameValuePair> parameters) {		
+	public static HttpUriRequest buildHttpRequest(HttpVerb verb, String type, Long objectId, String action, List<NameValuePair> parameters, String httpBody) {		
 		String path = getPath(type, objectId, action);
 		String token = Anode.getToken();
 		String contentType = "application/json";
@@ -84,17 +86,29 @@ public class AnodeClient implements Serializable {
 		
 		switch (verb) {
 		case POST:
+		case PUT:
 			
-			request = new HttpPost(buildURI(builder));
-			HttpPost post = (HttpPost)request;
+			if (verb == HttpVerb.POST) {
+				request = new HttpPost(buildURI(builder));
+			} else {
+				request = new HttpPut(buildURI(builder));
+			}
 			
+			HttpEntityEnclosingRequestBase entityRequest = (HttpEntityEnclosingRequestBase)request;
+			 
 			if (parameters != null && parameters.size() > 0) {				
 				contentType = "application/x-www-form-urlencoded";				
 				
 				try {
-					post.setEntity(new UrlEncodedFormEntity(parameters));
+					entityRequest.setEntity(new UrlEncodedFormEntity(parameters));
 				} catch (UnsupportedEncodingException e) {
 					throw new AnodeException(AnodeException.PARAMETER_ENCODING_ERROR, "post parameters encoding error", e);
+				}
+			} else if (httpBody != null && httpBody.length() > 0) {
+				try {
+					entityRequest.setEntity(new StringEntity(httpBody));
+				} catch (UnsupportedEncodingException e) {
+					throw new AnodeException(AnodeException.PARAMETER_ENCODING_ERROR, "post body encoding error", e);
 				}
 			}
 			
@@ -122,16 +136,20 @@ public class AnodeClient implements Serializable {
 		return buildHttpRequest(verb, null, null, new ArrayList<NameValuePair>());
 	}
 	
-	public HttpUriRequest buildObjectHttpRequest(HttpVerb verb, Long objectId) {
+	public HttpUriRequest buildHttpRequest(HttpVerb verb, Long objectId) {
 		return buildHttpRequest(verb, objectId, null, new ArrayList<NameValuePair>());
 	}	
 	
-	public HttpUriRequest buildActionHttpRequest(HttpVerb verb, String action) {
+	public HttpUriRequest buildHttpRequest(HttpVerb verb, String action) {
 		return buildHttpRequest(verb, null, action, new ArrayList<NameValuePair>());
 	}
 	
 	public HttpUriRequest buildHttpRequest(HttpVerb verb, Long objectId, String action, List<NameValuePair> parameters) {
-		return AnodeClient.buildHttpRequest(verb, this.type, objectId, action, parameters);
+		return AnodeClient.buildHttpRequest(verb, this.type, objectId, action, parameters, null);
+	}
+	
+	public HttpUriRequest buildHttpRequest(HttpVerb verb, Long objectId, String action, String httpBody) {
+		return AnodeClient.buildHttpRequest(verb, this.type, objectId, action, null, httpBody);
 	}
 	
 	/*
