@@ -216,6 +216,13 @@ public class AnodeObject extends AnodeClient implements Serializable {
 		return new AnodeQuery(type, this.type, relationshipName, this.getObjectId());
 	}
 	
+	public void PrintDebug() {
+		for (String key : this.data.keySet()) {
+			Object value = this.data.get(key);
+			Log.w("AnodeObject", "JSON key: " + key + " value: " + value + " type: " + value.getClass().getName());
+		}
+	}
+	
 	/*
 	 * Private
 	 */
@@ -230,8 +237,12 @@ public class AnodeObject extends AnodeClient implements Serializable {
 		Iterator<String> keys = json.keys();
 		
 		while (keys.hasNext()) {
-			String key = keys.next();			
-			Object value = json.opt(key);			
+			String key = keys.next();	
+			Object value = null;
+			
+			if (!json.isNull(key)) {
+				value = json.opt(key);
+			}
 			
 			// handle special types which need to be converted
 			// other types pass through untouched
