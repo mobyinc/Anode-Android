@@ -12,8 +12,13 @@ public class Anode {
 	private static String baseUrl;
 	private static String userToken;
 	private static String clientToken;
+	private static AnodeErrorHandler errorHandler;
 	
-	public static void initialize(Context context) throws AnodeException {		
+	public static void initialize(Context context) throws AnodeException {
+		Anode.initialize(context, null);
+	}
+	
+	public static void initialize(Context context, AnodeErrorHandler errorHandler) throws AnodeException {		
 		ApplicationInfo appInfo = null;
 		
 		try {
@@ -37,8 +42,9 @@ public class Anode {
 		Anode.context = context;
 		Anode.baseUrl = baseUrl;
 		Anode.clientToken = clientToken;
+		Anode.errorHandler = errorHandler;
 		
-		AnodeCache.initialize(context, "ANODE_CACHE", 1024 * 1024 * 5); // 5 MB Cache
+		AnodeCache.initialize(Anode.context, "ANODE_CACHE", 1024 * 1024 * 5); // 5 MB Cache
 
 		// check for existing user session
 		if (AnodeUser.isLoggedIn()) {
@@ -47,11 +53,15 @@ public class Anode {
 	}
 	
 	public static String getBaseUrl() {
-		return baseUrl;
+		return Anode.baseUrl;
 	}
 	
 	public static String getToken() {
-		return userToken != null ? userToken : clientToken;
+		return Anode.userToken != null ? Anode.userToken : Anode.clientToken;
+	}
+	
+	public static AnodeErrorHandler getErrorHandler() {
+		return Anode.errorHandler;
 	}
 	
 	public static void setUserToken(String userToken) {

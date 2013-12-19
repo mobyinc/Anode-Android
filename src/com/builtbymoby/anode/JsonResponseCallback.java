@@ -1,7 +1,6 @@
 package com.builtbymoby.anode;
 
-public abstract class JsonResponseCallback {
+public abstract class JsonResponseCallback extends AnodeCallback {
 	public JsonResponseCallback() {}
-	public abstract void done(JsonResponse response);
-	public abstract void fail(AnodeException e);
+	public abstract void done(JsonResponse response);	
 }

@@ -2,8 +2,7 @@ package com.builtbymoby.anode;
 
 import java.util.List;
 
-public abstract class ObjectsResultCallback {
+public abstract class ObjectsResultCallback extends AnodeCallback {
 	public ObjectsResultCallback() {}
-	public abstract void done(List<AnodeObject> objects);
-	public abstract void fail(AnodeException e);
+	public abstract void done(List<AnodeObject> objects);	
 }

@@ -1,7 +1,6 @@
 package com.builtbymoby.anode;
 
-public abstract class CompletionCallback {
+public abstract class CompletionCallback extends AnodeCallback {
 	public CompletionCallback() {}
 	public abstract void done(Object object);
-	public abstract void fail(AnodeException e);
 }

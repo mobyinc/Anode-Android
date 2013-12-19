@@ -1,7 +1,6 @@
 package com.builtbymoby.anode;
 
-public abstract class ObjectResultCallback {
+public abstract class ObjectResultCallback extends AnodeCallback {
 	public ObjectResultCallback() {}
-	public abstract void done(AnodeObject object);
-	public abstract void fail(AnodeException e);
+	public abstract void done(AnodeObject object);	
 }
