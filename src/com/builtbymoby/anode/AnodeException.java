@@ -23,7 +23,7 @@ public class AnodeException extends RuntimeException {
 	public static final int INVALID_OBJECT_STATE = 15;
 	
 	private int code = 0;
-	private int httpStatusCode = 0;
+	private HttpStatusCode httpStatusCode = HttpStatusCode.UNKNOWN;
 	
 	public AnodeException(int code, String message) {
 		super(message);
@@ -31,7 +31,7 @@ public class AnodeException extends RuntimeException {
 		Log.e(TAG, message, this);
 	}
 	
-	public AnodeException(int code, int httpStatusCode, String message) {
+	public AnodeException(int code, HttpStatusCode httpStatusCode, String message) {
 		super(message);
 		this.code = code;
 		this.httpStatusCode = httpStatusCode;
@@ -44,7 +44,7 @@ public class AnodeException extends RuntimeException {
 		Log.e(TAG, message, this);
 	}
 	
-	public AnodeException(int code, int httpStatusCode, String message, Throwable cause) {
+	public AnodeException(int code, HttpStatusCode httpStatusCode, String message, Throwable cause) {
 		super(message, cause);
 		this.code = code;
 		this.httpStatusCode = httpStatusCode;
@@ -55,7 +55,7 @@ public class AnodeException extends RuntimeException {
 		return code;
 	}
 	
-	public int getHttpStatusCode() {
+	public HttpStatusCode getHttpStatusCode() {
 		return httpStatusCode;
 	}
 }

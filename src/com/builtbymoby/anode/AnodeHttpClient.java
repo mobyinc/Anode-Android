@@ -63,7 +63,7 @@ public class AnodeHttpClient {
 			try {
 				HttpResponse response = client.execute(httpRequest);				
 				StatusLine status = response.getStatusLine();
-				int httpStatusCode = status.getStatusCode();
+				HttpStatusCode httpStatusCode = HttpStatusCode.fromInt(status.getStatusCode());
 				HttpEntity entity = response.getEntity();
 				inputStream = AndroidHttpClient.getUngzippedContent(entity);
 
@@ -81,17 +81,19 @@ public class AnodeHttpClient {
 					jsonResponse = new JsonResponse(stringResponse);
 					
 					if (jsonResponse.isValid()) {
-						if (httpStatusCode == 200) {
+						if (httpStatusCode == HttpStatusCode.OK) {
 							callback.done(jsonResponse);
 						} else if (jsonResponse.isJSONObject() && jsonResponse.getJSONObject().optJSONObject("error") != null)  {
 							JSONObject errorObject = jsonResponse.getJSONObject().getJSONObject("error");
 							String message = errorObject.optString("message", "unknown error");
-							int code = errorObject.optInt("code", 0);
+							HttpStatusCode code = HttpStatusCode.fromInt(errorObject.optInt("code", 0));
 							
 							callback.fail(new AnodeException(AnodeException.SERVER_ERROR, code, message));
 						} else {
 							callback.fail(new AnodeException(AnodeException.SERVER_ERROR, httpStatusCode, "unknown server error"));
 						}
+					} else if (httpStatusCode == HttpStatusCode.OK) {
+						callback.done(null); // empty response
 					} else {
 						callback.fail(new AnodeException(AnodeException.INVALID_JSON, httpStatusCode, "JSON parse error"));
 					}
