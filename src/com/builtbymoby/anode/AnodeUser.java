@@ -44,6 +44,8 @@ public class AnodeUser extends AnodeObject implements Serializable {
 	}
 	
 	public static void setCurrentUser(AnodeUser user) {
+		// TODO: why isn't cached version saving nested JSONObjects?
+		AnodeUser.currentUser = user;
 		Anode.setUserToken(user.getToken());
 		AnodeCache.getInstance().putObject(CURRENT_USER_CACHE_KEY, user);
 	}
