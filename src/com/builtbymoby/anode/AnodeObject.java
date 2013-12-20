@@ -123,6 +123,11 @@ public class AnodeObject extends AnodeClient implements Serializable {
 		return (Boolean)data.get(key);
 	}
 	
+	public boolean getPrimitiveBoolean(String key) {
+		Boolean value = (Boolean)data.get(key);
+		return value != null && value;
+	}
+	
 	public Integer getInteger(String key) {
 		return (Integer)data.get(key);
 	}
