@@ -213,8 +213,20 @@ public class AnodeObject extends AnodeClient implements Serializable {
 		return null;
 	}
 	
-	public void callMethod(String methodName, List<NameValuePair>parameters, CompletionCallback callback) {
-		// TODO: implement method calling
+	public void callMethod(String methodName, final List<NameValuePair>parameters, final CompletionCallback callback) {
+		HttpUriRequest request = buildHttpRequest(HttpVerb.POST, getObjectId(), methodName, parameters);
+		
+		AnodeHttpClient.getInstance().perform(request, new JsonResponseCallback() {
+			@Override
+			public void done(JsonResponse response) {				
+				callback.done(response);
+			}
+
+			@Override
+			public void fail(AnodeException e) {
+				callback.fail(e);
+			}
+		});
 	}
 	
 	public AnodeQuery getQuery(String relationshipName, String type) {
