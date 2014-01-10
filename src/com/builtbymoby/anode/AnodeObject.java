@@ -196,12 +196,43 @@ public class AnodeObject extends AnodeClient implements Serializable {
 		// TODO: implement reload object
 	}
 	
-	public void destroy() {
-		// TODO: implement destroy object
+	public void reload(CompletionCallback callback) {
+		// TODO: implement reload object
 	}
 	
-	public void destroy(CompletionCallback callback) {
+	public void destroy() {
+		destroy(null);
+	}
+	
+	public void destroy(final CompletionCallback callback) {
+		final AnodeObject self = this;
+	    
+		if (getObjectId() == null) {
+			if (callback != null) {
+				callback.fail(new AnodeException(AnodeException.INVALID_OBJECT_STATE, "Cannot destroy object with no object id"));	
+			}
+			return;
+		}
 		
+		performRequest(HttpVerb.DELETE, null, new CompletionCallback() {
+			
+			@Override
+			public void done(Object object) {
+				self.destroyOnSave = false;
+				self.data.remove("id");
+				
+				if (callback != null) {
+					callback.done(self);
+				}
+			}
+			
+			@Override
+			public void fail(AnodeException e) {
+				if (callback != null) {
+					callback.fail(e);
+				}
+			}
+		});   
 	}
 	
 	public void touch() {

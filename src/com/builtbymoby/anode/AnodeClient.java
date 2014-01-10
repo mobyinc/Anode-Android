@@ -11,6 +11,7 @@ import java.util.List;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -89,7 +90,7 @@ public class AnodeClient implements Serializable {
 		case PUT:
 			
 			if (verb == HttpVerb.POST) {
-				request = new HttpPost(buildURI(builder));
+				request = new HttpPost(buildURI(builder));			
 			} else {
 				request = new HttpPut(buildURI(builder));
 			}
@@ -113,7 +114,10 @@ public class AnodeClient implements Serializable {
 			}
 			
 			break;
-
+		case DELETE:			
+			request = new HttpDelete(buildURI(builder));
+			
+			break;
 		default: // default is GET	
 			if (parameters != null) {
 				for (NameValuePair nvp : parameters) {
