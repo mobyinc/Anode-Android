@@ -94,6 +94,10 @@ public class AnodeObject extends AnodeClient implements Serializable {
 		data.put("_destroy", destroyOnSave);		
 	}
 	
+	public Boolean getDestroyOnSave() {
+		return destroyOnSave;
+	}
+	
 	public void setObject(String key, Object object) {
 		if (key.contains("__")) {
 			throw new AnodeException(AnodeException.ILLEGAL_ATTRIBUTE, "cannot access protected attribute " + key);
