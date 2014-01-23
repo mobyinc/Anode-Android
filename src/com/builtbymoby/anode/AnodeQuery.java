@@ -11,6 +11,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.builtbymoby.anode.AnodePredicate.Operator;
+
 import android.util.Log;
 
 public class AnodeQuery extends AnodeClient{
@@ -131,6 +133,11 @@ public class AnodeQuery extends AnodeClient{
 				callback.fail(e);
 			}
 		});
+	}
+	
+	public void findObjects(List<Long> ids, final ObjectsResultCallback callback) {
+		AnodePredicate predicate = new AnodePredicate("id", Operator.IN, ids);
+		findObjects(predicate, callback);
 	}
 	
 	/*

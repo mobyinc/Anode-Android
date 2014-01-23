@@ -1,7 +1,11 @@
 package com.builtbymoby.anode;
 
+import java.util.List;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import android.text.TextUtils;
 
 public class AnodePredicate {
 	public Object left;
@@ -13,13 +17,13 @@ public class AnodePredicate {
 		this.right = right;
 		this.operator = operator;
 	}
-	
+		
 	public JSONObject toJson() {
 		JSONObject object = new JSONObject();
 		try {
 			object.put("left", getOperandString(left));
-			object.put("right", getOperandString(right));
 			object.put("operator", operator.toString());
+			object.put("right", getOperandString(right));
 		} catch (JSONException e) {
 			throw new AnodeException(AnodeException.JSON_ENCODING_ERROR, "predicate encoding error");
 		}
@@ -47,9 +51,12 @@ public class AnodePredicate {
 	    }
 	}
 	
+	@SuppressWarnings("rawtypes")
 	private Object getOperandString(Object op) {
 		if (op instanceof Boolean) {
 			return (Boolean)op ? "1" : "0";
+		} else if (op instanceof List) {
+			return "{" + TextUtils.join(",", (List)this.right) + "}";
 		} else {
 			return op.toString();
 		}
