@@ -1,20 +1,26 @@
 package com.builtbymoby.anode;
 
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URI;
 import java.net.URL;
+
+import ch.boye.httpclientandroidlib.entity.mime.content.ContentBody;
 
 import android.net.Uri;
 import android.text.TextUtils;
 
-public class AnodeFile {
+public class AnodeFile implements ContentBody {
 	private String urlString;
-	private String fileName;
+	private String filename;
 	private Boolean loaded = false;
+	private byte[] data;
 	
 	// TODO: file data storage
 	
-	public AnodeFile(String fileName, Object data) {
-		
+	public AnodeFile(String filename, byte[] data) {
+		this.filename = filename;
+		this.data = data;
 	}
 	
 	public AnodeFile(String urlString) {
@@ -41,13 +47,55 @@ public class AnodeFile {
 		}
 	}
 	
-	public String getFileName() {
-		return fileName;
-	}
+	// TODO: remote asset loading and image representation
 	
 	public Boolean isLoaded() {
-		return loaded;
+		return this.loaded;
 	}
 	
-	// TODO: remote asset loading and image representation
+	public byte[] getData() {
+		return this.data;
+	}
+	
+	// Content Body
+	
+	public String getFilename() {
+		return this.filename;
+	}
+	
+	public void writeTo(OutputStream out) throws IOException {
+		out.write(data);
+	}
+
+	@Override
+	public String getCharset() {		
+		return null;
+	}
+
+	@Override
+	public long getContentLength() {
+		return this.data.length;
+	}
+	
+	// TODO: auto-detect supported types
+
+	@Override
+	public String getMediaType() {
+		return "image";
+	}
+
+	@Override
+	public String getMimeType() {
+		return getMediaType() + "/" + getSubType(); 
+	}
+
+	@Override
+	public String getSubType() {
+		return "png";
+	}
+
+	@Override
+	public String getTransferEncoding() {
+		return "7bit";
+	}	
 }

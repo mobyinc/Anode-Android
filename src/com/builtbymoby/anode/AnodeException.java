@@ -21,6 +21,7 @@ public class AnodeException extends RuntimeException {
 	public static final int CACHE_NOT_INITIALIZED = 13;
 	public static final int CURRENT_USER_NOT_INITIALIZED = 14;
 	public static final int INVALID_OBJECT_STATE = 15;
+	public static final int INVALID_HTTP_VERB = 16;
 	
 	private int code = 0;
 	private HttpStatusCode httpStatusCode = HttpStatusCode.UNKNOWN;

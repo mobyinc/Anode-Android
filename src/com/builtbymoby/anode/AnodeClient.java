@@ -6,7 +6,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import ch.boye.httpclientandroidlib.HttpEntity;
 import ch.boye.httpclientandroidlib.NameValuePair;
@@ -17,9 +19,11 @@ import ch.boye.httpclientandroidlib.client.methods.HttpGet;
 import ch.boye.httpclientandroidlib.client.methods.HttpPost;
 import ch.boye.httpclientandroidlib.client.methods.HttpPut;
 import ch.boye.httpclientandroidlib.client.methods.HttpUriRequest;
+import ch.boye.httpclientandroidlib.entity.ContentType;
 import ch.boye.httpclientandroidlib.entity.StringEntity;
 import ch.boye.httpclientandroidlib.entity.mime.HttpMultipartMode;
 import ch.boye.httpclientandroidlib.entity.mime.MultipartEntityBuilder;
+import ch.boye.httpclientandroidlib.entity.mime.content.ContentBody;
 import ch.boye.httpclientandroidlib.protocol.HTTP;
 
 import com.builtbymoby.anode.utility.inflector.English;
@@ -138,18 +142,47 @@ public class AnodeClient implements Serializable {
 		return request;
 	}
 	
-	public static HttpUriRequest buildHttpRequest(HttpVerb verb, String type, Long objectId, String action, List<NameValuePair> parameters, String httpBody, List<AnodeFile>files) {		
-		HttpUriRequest request = AnodeClient.buildHttpRequest(verb, type, objectId, action, parameters, httpBody);		
+	public static HttpUriRequest buildHttpRequest(HttpVerb verb, String type, Long objectId, String action, List<NameValuePair> parameters, String httpBody, Map<String, AnodeFile>files) {
+		String path = getPath(type, objectId, action);
+		String token = Anode.getToken();		
+		Uri.Builder uriBuilder = getUriBuilder();		
+		uriBuilder.appendEncodedPath(path);		
 		
-		 MultipartEntityBuilder builder = MultipartEntityBuilder.create();        
-		 builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+		HttpEntityEnclosingRequestBase request = null;
+		
+		if (verb == HttpVerb.POST) {
+			request = new HttpPost(buildURI(uriBuilder));
+		} else if (verb == HttpVerb.PUT) {
+			request = new HttpPut(buildURI(uriBuilder));
+		} else {
+			throw new AnodeException(AnodeException.INVALID_HTTP_VERB, "Multipart requests must use POST or PUT verb");
+		}	
+		
+		MultipartEntityBuilder builder = MultipartEntityBuilder.create();        
+		builder.setMode(HttpMultipartMode.STRICT);
 
-//		 builder.addPart("file", fb);
-//		    builder.addTextBody("userName", userName);
-//		    builder.addTextBody("password", password);
-//		    builder.addTextBody("macAddress",  macAddress);
-//		    final HttpEntity yourEntity = builder.build();
+		builder.addTextBody("DATA", httpBody, ContentType.APPLICATION_JSON);
+		
+		// TODO: parameters
+		if (parameters != null) {
+			throw new AnodeException(AnodeException.NOT_IMPLEMENTED, "multipart parameters are not supported yet");
+		}
+		
+		for (String name : files.keySet()) {
+			AnodeFile file = files.get(name);
+			String formFieldName = type + "[" + name + "]";
+			builder.addPart(formFieldName, file);
+//			builder.addBinaryBody(file.getFileName(), file.getData());			
+		}
+		 
+		final HttpEntity entity = builder.build();		
+		HttpEntityEnclosingRequestBase entityRequest = (HttpEntityEnclosingRequestBase)request;
+		entityRequest.setEntity(entity);
 		    
+		request.setHeader("Accept", "application/json");
+//		request.setHeader("Content-Type", contentType);		
+		request.setHeader("Authorization", "Token token=" + token);
+		
 		return request;
 	}
 
@@ -173,7 +206,7 @@ public class AnodeClient implements Serializable {
 		return AnodeClient.buildHttpRequest(verb, this.type, objectId, action, null, httpBody);
 	}
 	
-	public HttpUriRequest buildHttpRequest(HttpVerb verb, Long objectId, String action, List<NameValuePair> parameters, String httpBody, List<AnodeFile>files) {
+	public HttpUriRequest buildHttpRequest(HttpVerb verb, Long objectId, String action, List<NameValuePair> parameters, String httpBody, Map<String, AnodeFile>files) {
 		return AnodeClient.buildHttpRequest(verb, this.type, objectId, action, parameters, httpBody, files);
 	}
 	

@@ -29,8 +29,7 @@ public class AnodeObject extends AnodeClient implements Serializable {
 	private Boolean destroyOnSave = false;
 	
 	private HashMap<String, Object> data = new HashMap<String, Object>();
-	
-	// TODO: file storage
+	private HashMap<String, AnodeFile> files = new HashMap<String, AnodeFile>();
 	
 	public AnodeObject(String type){
 		super(type);
@@ -109,7 +108,7 @@ public class AnodeObject extends AnodeClient implements Serializable {
 			dirty = true;
 			data.put(key, object);
 		}
-	}
+	}	
 	
 	public void removeObject(String key) {
 		data.put(key, null);
@@ -162,15 +161,19 @@ public class AnodeObject extends AnodeClient implements Serializable {
 		}
 	}
 	
-	// TODO: other getter types
+	public AnodeFile getFile(String key) {
+		try {
+			return (AnodeFile)data.get(key);
+		} catch (Exception e) {
+			return null;
+		}
+	}
 	
 	public AnodeFile getFile(String key, String version) {
 		JSONObject node = (JSONObject)getObject(key);
 		String url = node.optString(version, "");
 		return new AnodeFile(url);
 	}
-	
-	// TODO: file support
 	
 	public void save() {
 		save(null);
@@ -279,8 +282,6 @@ public class AnodeObject extends AnodeClient implements Serializable {
 	 * Private
 	 */
 	
-	// TODO: perform request (for CRUD operations)
-	
 	protected static void applyJSON(JSONObject json, AnodeObject object) {
 		object.data = new HashMap<String, Object>();
 		object.dirty = false;
@@ -360,6 +361,8 @@ public class AnodeObject extends AnodeClient implements Serializable {
 			rootObject = object;
 		}
 		
+		this.files = new HashMap<String, AnodeFile>();
+		
 		for (String key : data.keySet()) {
 			Object value = data.get(key);
 			
@@ -390,6 +393,11 @@ public class AnodeObject extends AnodeClient implements Serializable {
 					key = null;
 					value = null;
 				}
+			} else if (value instanceof AnodeFile) {
+				// these will be sent as separate multi-part data
+				this.files.put(key, (AnodeFile)value);
+				key = null;
+				value = null;
 			}
 			
 			if (key != null && value != null) {
@@ -406,7 +414,13 @@ public class AnodeObject extends AnodeClient implements Serializable {
 	}
 	
 	protected void performRequest(final HttpVerb verb, final String httpBody, final CompletionCallback callback) {
-		HttpUriRequest request = buildHttpRequest(verb, getObjectId(), null, httpBody);
+		HttpUriRequest request = null;
+		
+		if (this.files.size() == 0) {
+			request = buildHttpRequest(verb, getObjectId(), null, httpBody);
+		} else {
+			request = buildHttpRequest(verb, getObjectId(), null, null, httpBody, this.files);
+		}
 		
 		AnodeHttpClient.getInstance().perform(request, new JsonResponseCallback() {
 			@Override
