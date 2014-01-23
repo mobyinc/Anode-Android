@@ -4,12 +4,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.impl.client.DefaultHttpClient;
+import ch.boye.httpclientandroidlib.HttpEntity;
+import ch.boye.httpclientandroidlib.HttpResponse;
+import ch.boye.httpclientandroidlib.StatusLine;
+import ch.boye.httpclientandroidlib.client.HttpClient;
+import ch.boye.httpclientandroidlib.client.methods.HttpUriRequest;
+import ch.boye.httpclientandroidlib.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
 
 import android.net.http.AndroidHttpClient;
@@ -65,7 +65,7 @@ public class AnodeHttpClient {
 				StatusLine status = response.getStatusLine();
 				HttpStatusCode httpStatusCode = HttpStatusCode.fromInt(status.getStatusCode());
 				HttpEntity entity = response.getEntity();
-				inputStream = AndroidHttpClient.getUngzippedContent(entity);
+				inputStream = entity.getContent();
 
 				byte[] buffer = new byte[1024];
 				int numRead = 0;

@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.http.NameValuePair;
-import org.apache.http.client.methods.HttpUriRequest;
+import ch.boye.httpclientandroidlib.NameValuePair;
+import ch.boye.httpclientandroidlib.client.methods.HttpUriRequest;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -345,12 +345,20 @@ public class AnodeObject extends AnodeClient implements Serializable {
 			}
 		}
 	}
-		
+	
 	protected JSONObject jsonRequestRepresentation() {
-		JSONObject wrapperObject = new JSONObject();
+		return jsonRequestRepresentation(true);
+	}
+	
+	protected JSONObject jsonRequestRepresentation(boolean useWrapperObject) {
+		JSONObject rootObject = new JSONObject();
 		JSONObject object = new JSONObject();
 		
-		try { wrapperObject.put(this.type, object); } catch (JSONException ignored) {}
+		if (useWrapperObject) {
+			try { rootObject.put(this.type, object); } catch (JSONException ignored) {}
+		} else {
+			rootObject = object;
+		}
 		
 		for (String key : data.keySet()) {
 			Object value = data.get(key);
@@ -364,7 +372,7 @@ public class AnodeObject extends AnodeClient implements Serializable {
 				
 				for (int i = 0; i < list.size(); i++) {
 					AnodeObject listObject = list.get(i);
-					JSONObject listObjectJson = listObject.jsonRequestRepresentation();
+					JSONObject listObjectJson = listObject.jsonRequestRepresentation(false);
 					String name = listObject.isNew() ? String.format("%d", i+100000000) : listObject.getObjectId().toString();
 					try { objectMap.putOpt(name, listObjectJson); } catch (JSONException e) { /* Oh well */ }
 				}
@@ -389,7 +397,7 @@ public class AnodeObject extends AnodeClient implements Serializable {
 			}
 		}
 		
-		return wrapperObject;
+		return rootObject;
 	}
 	
 	protected static boolean isDateString(String value) {

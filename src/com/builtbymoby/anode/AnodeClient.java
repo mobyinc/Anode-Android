@@ -8,17 +8,19 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpEntityEnclosingRequestBase;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.protocol.HTTP;
+import ch.boye.httpclientandroidlib.HttpEntity;
+import ch.boye.httpclientandroidlib.NameValuePair;
+import ch.boye.httpclientandroidlib.client.entity.UrlEncodedFormEntity;
+import ch.boye.httpclientandroidlib.client.methods.HttpDelete;
+import ch.boye.httpclientandroidlib.client.methods.HttpEntityEnclosingRequestBase;
+import ch.boye.httpclientandroidlib.client.methods.HttpGet;
+import ch.boye.httpclientandroidlib.client.methods.HttpPost;
+import ch.boye.httpclientandroidlib.client.methods.HttpPut;
+import ch.boye.httpclientandroidlib.client.methods.HttpUriRequest;
+import ch.boye.httpclientandroidlib.entity.StringEntity;
+import ch.boye.httpclientandroidlib.entity.mime.HttpMultipartMode;
+import ch.boye.httpclientandroidlib.entity.mime.MultipartEntityBuilder;
+import ch.boye.httpclientandroidlib.protocol.HTTP;
 
 import com.builtbymoby.anode.utility.inflector.English;
 
@@ -135,6 +137,21 @@ public class AnodeClient implements Serializable {
 		
 		return request;
 	}
+	
+	public static HttpUriRequest buildHttpRequest(HttpVerb verb, String type, Long objectId, String action, List<NameValuePair> parameters, String httpBody, List<AnodeFile>files) {		
+		HttpUriRequest request = AnodeClient.buildHttpRequest(verb, type, objectId, action, parameters, httpBody);		
+		
+		 MultipartEntityBuilder builder = MultipartEntityBuilder.create();        
+		 builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+
+//		 builder.addPart("file", fb);
+//		    builder.addTextBody("userName", userName);
+//		    builder.addTextBody("password", password);
+//		    builder.addTextBody("macAddress",  macAddress);
+//		    final HttpEntity yourEntity = builder.build();
+		    
+		return request;
+	}
 
 	public HttpUriRequest buildHttpRequest(HttpVerb verb) {
 		return buildHttpRequest(verb, null, null, new ArrayList<NameValuePair>());
@@ -154,6 +171,10 @@ public class AnodeClient implements Serializable {
 	
 	public HttpUriRequest buildHttpRequest(HttpVerb verb, Long objectId, String action, String httpBody) {
 		return AnodeClient.buildHttpRequest(verb, this.type, objectId, action, null, httpBody);
+	}
+	
+	public HttpUriRequest buildHttpRequest(HttpVerb verb, Long objectId, String action, List<NameValuePair> parameters, String httpBody, List<AnodeFile>files) {
+		return AnodeClient.buildHttpRequest(verb, this.type, objectId, action, parameters, httpBody, files);
 	}
 	
 	/*
