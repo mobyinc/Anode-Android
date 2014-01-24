@@ -137,12 +137,12 @@ public class AnodeUser extends AnodeObject implements Serializable {
 		AnodeHttpClient.getInstance().perform(request, new JsonResponseCallback() {
 			@Override
 			public void done(JsonResponse response) {				
-				callback.done(null);				
+				if (callback != null) callback.done(null);				
 			}
 			
 			@Override
 			public void fail(AnodeException e) {
-				callback.fail(e);
+				if (callback != null) callback.fail(e);
 			}
 		});
 	}
