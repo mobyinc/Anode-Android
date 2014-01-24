@@ -119,8 +119,32 @@ public class AnodeUser extends AnodeObject implements Serializable {
 		}
 	}
 	
-	public static void registerDevice() {
-		// TODO: Push notification
+	public static void registerDevice(String regId) {
+		registerDevice(regId, null);
+	}
+	
+	public static void registerDevice(String regId, final CompletionCallback callback) {
+	    if (getCurrentUser() == null) {
+	    	throw new AnodeException(AnodeException.CURRENT_USER_NOT_INITIALIZED, "Cannot register device token without current user");
+	    }
+	    
+	    List<NameValuePair> parameters = new ArrayList<NameValuePair>();	
+		parameters.add(new BasicNameValuePair("device_token", regId));
+		parameters.add(new BasicNameValuePair("platform", "Android"));
+		
+		HttpUriRequest request = buildHttpRequest(HttpVerb.POST, "user", null, "register_device_token", parameters, null);
+		
+		AnodeHttpClient.getInstance().perform(request, new JsonResponseCallback() {
+			@Override
+			public void done(JsonResponse response) {				
+				callback.done(null);				
+			}
+			
+			@Override
+			public void fail(AnodeException e) {
+				callback.fail(e);
+			}
+		});
 	}
 	
 	public static void resetPassword(String username, final CompletionCallback callback) {
