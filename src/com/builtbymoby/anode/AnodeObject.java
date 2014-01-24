@@ -171,8 +171,12 @@ public class AnodeObject extends AnodeClient implements Serializable {
 	
 	public AnodeFile getFile(String key, String version) {
 		JSONObject node = (JSONObject)getObject(key);
-		String url = node.optString(version, "");
-		return new AnodeFile(url);
+		if (node != null) {
+			String url = node.optString(version, "");
+			return new AnodeFile(url);
+		}
+		
+		return null;
 	}
 	
 	public void save() {
