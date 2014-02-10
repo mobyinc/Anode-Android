@@ -36,7 +36,7 @@ public class AnodeClient implements Serializable {
 
 	private static final long serialVersionUID = -4825268292630127746L;
 
-	static protected SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZ");
+	static public SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZZZZ");
 	
 	protected String type = "";
 	
