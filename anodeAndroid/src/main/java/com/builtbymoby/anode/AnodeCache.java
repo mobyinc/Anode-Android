@@ -113,13 +113,17 @@ public class AnodeCache {
 	}
 	
 	private File getDiskCacheDir(Context context, String uniqueName) {
-		final String cachePath =
-				Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
-	            !Utils.isExternalStorageRemovable() ?
-	            Utils.getExternalCacheDir(context).getPath() :
-	            	context.getCacheDir().getPath();
+		String cachePath = null;
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState()) ||
+                !Utils.isExternalStorageRemovable()) {
+            cachePath = Utils.getExternalCacheDir(context).getPath();
+        }
+        else {
+            if (context.getCacheDir() != null)
+                cachePath = context.getCacheDir().getPath();
+        }
 
-	    return new File(cachePath + File.separator + uniqueName);
+        return new File(String.format("%s%s%s", cachePath, File.separator, uniqueName));
 	}
 	
 	private boolean writeObjectToFile(Serializable object, DiskLruCache.Editor editor) {
