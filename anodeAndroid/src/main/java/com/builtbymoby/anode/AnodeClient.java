@@ -145,8 +145,9 @@ public class AnodeClient implements Serializable {
 	
 	public static HttpUriRequest buildHttpRequest(HttpVerb verb, String type, Long objectId, String action, List<NameValuePair> parameters, String httpBody, Map<String, AnodeFile>files) {
 		String path = getPath(type, objectId, action);
-		String token = Anode.getToken();		
-		Uri.Builder uriBuilder = getUriBuilder();		
+		String token = Anode.getToken();
+        String appId = Anode.getAppId();
+        Uri.Builder uriBuilder = getUriBuilder();
 		uriBuilder.appendEncodedPath(path);		
 		
 		HttpEntityEnclosingRequestBase request = null;
@@ -183,7 +184,8 @@ public class AnodeClient implements Serializable {
 		request.setHeader("Accept", "application/json");
 //		request.setHeader("Content-Type", contentType);		
 		request.setHeader("Authorization", "Token token=" + token);
-		
+        request.setHeader("App-Id", appId);
+
 		return request;
 	}
 
