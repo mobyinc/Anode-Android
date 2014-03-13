@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 public class Anode {
 	private static Context context;
@@ -32,6 +33,8 @@ public class Anode {
 		String baseUrl = bundle.getString("fluke_api_base_url");
 		String clientToken = bundle.getString("fluke_api_client_token");
         String appId = bundle.getString("fluke_api_app_id");
+        if (appId == null)
+            appId = String.format("%d", bundle.getInt("fluke_api_app_id", 1));
 
 		if (TextUtils.isEmpty(baseUrl)) {
 			throw new AnodeException(AnodeException.INVALID_BASE_URL, "missing base url in app info");
@@ -64,7 +67,7 @@ public class Anode {
 	}
 
     public static String getAppId() {
-        return Anode.appId == null || TextUtils.isEmpty(Anode.appId) ? "1" : Anode.appId;
+        return Anode.appId;
     }
 
 	public static AnodeErrorHandler getErrorHandler() {
