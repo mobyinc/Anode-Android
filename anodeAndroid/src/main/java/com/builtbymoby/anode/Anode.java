@@ -12,6 +12,7 @@ public class Anode {
 	private static String baseUrl;
 	private static String userToken;
 	private static String clientToken;
+    private static String appId;
 	private static AnodeErrorHandler errorHandler;
 	
 	public static void initialize(Context context) throws AnodeException {
@@ -28,9 +29,10 @@ public class Anode {
 		}
 		
 		Bundle bundle = appInfo.metaData;
-		String baseUrl = bundle.getString("base_url");
-		String clientToken = bundle.getString("client_token");
-		
+		String baseUrl = bundle.getString("fluke_api_base_url");
+		String clientToken = bundle.getString("fluke_api_client_token");
+        String appId = bundle.getString("fluke_api_app_id");
+
 		if (TextUtils.isEmpty(baseUrl)) {
 			throw new AnodeException(AnodeException.INVALID_BASE_URL, "missing base url in app info");
 		}
@@ -38,9 +40,10 @@ public class Anode {
 		if (TextUtils.isEmpty(clientToken)) {
 			throw new AnodeException(AnodeException.INVALID_CLIENT_TOKEN, "missing client token in app info");
 		}
-		
+
 		Anode.context = context;
 		Anode.baseUrl = baseUrl;
+        Anode.appId = appId;
 		Anode.clientToken = clientToken;
 		Anode.errorHandler = errorHandler;
 		
@@ -59,7 +62,11 @@ public class Anode {
 	public static String getToken() {
 		return Anode.userToken != null ? Anode.userToken : Anode.clientToken;
 	}
-	
+
+    public static String getAppId() {
+        return Anode.appId == null || TextUtils.isEmpty(Anode.appId) ? "1" : Anode.appId;
+    }
+
 	public static AnodeErrorHandler getErrorHandler() {
 		return Anode.errorHandler;
 	}

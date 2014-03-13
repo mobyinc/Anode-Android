@@ -3,10 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="29bdf0dd-01b4-4356-b549-9b150c6b2e48" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Anode-Android.iml" afterPath="$PROJECT_DIR$/Anode-Android.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeCache.java" afterPath="$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeCache.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/Anode.java" afterPath="$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/Anode.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeClient.java" afterPath="$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeClient.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeObject.java" afterPath="$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeObject.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/anodeAndroid/anodeAndroid.iml" afterPath="$PROJECT_DIR$/anodeAndroid/anodeAndroid.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/anodeAndroid/build.gradle" afterPath="$PROJECT_DIR$/anodeAndroid/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="Anode-Android.iws" />
@@ -71,10 +71,55 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="build.gradle" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="build.gradle" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/anodeAndroid/build.gradle">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="39" column="0" selection-start="933" selection-end="933" vertical-scroll-proportion="0.45990565" vertical-offset="0" max-vertical-offset="1272">
+            <state line="39" column="0" selection-start="933" selection-end="933" vertical-scroll-proportion="0.0" vertical-offset="585" max-vertical-offset="675">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Anode.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/Anode.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="46" column="40" selection-start="1681" selection-end="1681" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1155">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AnodeClient.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeClient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="143" column="0" selection-start="4502" selection-end="4502" vertical-scroll-proportion="1.0118343" vertical-offset="825" max-vertical-offset="3465">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AnodeObject.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeObject.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="38" column="20" selection-start="1143" selection-end="1143" vertical-scroll-proportion="0.0" vertical-offset="570" max-vertical-offset="7065">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AnodeHttpClient.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeHttpClient.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="19" column="13" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="1860">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AndroidManifest.xml" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/AndroidManifest.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="11" column="11" selection-start="281" selection-end="281" vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="270">
               <folding />
             </state>
           </provider>
@@ -144,7 +189,35 @@
               <option name="externalSystemIdString" value="GRADLE" />
               <option name="taskNames">
                 <list>
-                  <option value="packageReleaseJar" />
+                  <option value="jarRelease" />
+                </list>
+              </option>
+            </ExternalSystemSettings>
+          </option>
+        </ExternalTaskExecutionInfo>
+        <ExternalTaskExecutionInfo>
+          <option name="executorId" value="Run" />
+          <option name="settings">
+            <ExternalSystemSettings>
+              <option name="externalProjectPath" value="$PROJECT_DIR$" />
+              <option name="externalSystemIdString" value="GRADLE" />
+              <option name="taskNames">
+                <list>
+                  <option value="bundleRelease" />
+                </list>
+              </option>
+            </ExternalSystemSettings>
+          </option>
+        </ExternalTaskExecutionInfo>
+        <ExternalTaskExecutionInfo>
+          <option name="executorId" value="Run" />
+          <option name="settings">
+            <ExternalSystemSettings>
+              <option name="externalProjectPath" value="$PROJECT_DIR$" />
+              <option name="externalSystemIdString" value="GRADLE" />
+              <option name="taskNames">
+                <list>
+                  <option value="compileReleaseJava" />
                 </list>
               </option>
             </ExternalSystemSettings>
@@ -159,6 +232,20 @@
               <option name="taskNames">
                 <list>
                   <option value="packageReleaseLocalJar" />
+                </list>
+              </option>
+            </ExternalSystemSettings>
+          </option>
+        </ExternalTaskExecutionInfo>
+        <ExternalTaskExecutionInfo>
+          <option name="executorId" value="Run" />
+          <option name="settings">
+            <ExternalSystemSettings>
+              <option name="externalProjectPath" value="$PROJECT_DIR$/anodeAndroid" />
+              <option name="externalSystemIdString" value="GRADLE" />
+              <option name="taskNames">
+                <list>
+                  <option value="packageReleaseJar" />
                 </list>
               </option>
             </ExternalSystemSettings>
@@ -570,6 +657,9 @@
       <list>
         <option value="$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeCache.java" />
         <option value="$PROJECT_DIR$/anodeAndroid/build.gradle" />
+        <option value="$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeObject.java" />
+        <option value="$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/Anode.java" />
+        <option value="$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeClient.java" />
       </list>
     </option>
   </component>
@@ -604,6 +694,8 @@
       <sortByType />
     </navigator>
     <panes>
+      <pane id="PackagesPane" />
+      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -701,11 +793,13 @@
               <option name="myItemId" value="java" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="anode" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
           </PATH>
         </subPane>
       </pane>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -718,7 +812,7 @@
     <property name="recentsLimit" value="5" />
     <property name="FullScreen" value="false" />
   </component>
-  <component name="RunManager" selected="Gradle.Anode-Android [bundleRelease]">
+  <component name="RunManager" selected="Gradle.Anode-Android:anodeAndroid [jarRelease]">
     <configuration default="false" name="Anode-Android [bundleRelease]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -730,25 +824,6 @@
         <option name="taskNames">
           <list>
             <option value="bundleRelease" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <RunnerSettings RunnerId="ExternalSystemTaskRunner" />
-      <ConfigurationWrapper RunnerId="ExternalSystemTaskRunner" />
-      <method />
-    </configuration>
-    <configuration default="false" name="Anode-Android:anodeAndroid [packageDebugJar]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/anodeAndroid" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="packageDebugJar" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -806,6 +881,25 @@
         <option name="taskNames">
           <list>
             <option value="compileReleaseJava" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <RunnerSettings RunnerId="ExternalSystemTaskRunner" />
+      <ConfigurationWrapper RunnerId="ExternalSystemTaskRunner" />
+      <method />
+    </configuration>
+    <configuration default="false" name="Anode-Android:anodeAndroid [jarRelease]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="externalProjectPath" value="$PROJECT_DIR$/anodeAndroid" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="jarRelease" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -952,18 +1046,18 @@
     </configuration>
     <list size="5">
       <item index="0" class="java.lang.String" itemvalue="Gradle.Anode-Android [bundleRelease]" />
-      <item index="1" class="java.lang.String" itemvalue="Gradle.Anode-Android:anodeAndroid [packageDebugJar]" />
-      <item index="2" class="java.lang.String" itemvalue="Gradle.Anode-Android:anodeAndroid [packageReleaseLocalJar]" />
-      <item index="3" class="java.lang.String" itemvalue="Gradle.Anode-Android:anodeAndroid [packageReleaseJar]" />
-      <item index="4" class="java.lang.String" itemvalue="Gradle.Anode-Android [compileReleaseJava]" />
+      <item index="1" class="java.lang.String" itemvalue="Gradle.Anode-Android:anodeAndroid [packageReleaseLocalJar]" />
+      <item index="2" class="java.lang.String" itemvalue="Gradle.Anode-Android:anodeAndroid [packageReleaseJar]" />
+      <item index="3" class="java.lang.String" itemvalue="Gradle.Anode-Android [compileReleaseJava]" />
+      <item index="4" class="java.lang.String" itemvalue="Gradle.Anode-Android:anodeAndroid [jarRelease]" />
     </list>
     <recent_temporary>
       <list size="5">
-        <item index="0" class="java.lang.String" itemvalue="Gradle.Anode-Android [bundleRelease]" />
-        <item index="1" class="java.lang.String" itemvalue="Gradle.Anode-Android [compileReleaseJava]" />
-        <item index="2" class="java.lang.String" itemvalue="Gradle.Anode-Android:anodeAndroid [packageReleaseJar]" />
+        <item index="0" class="java.lang.String" itemvalue="Gradle.Anode-Android:anodeAndroid [jarRelease]" />
+        <item index="1" class="java.lang.String" itemvalue="Gradle.Anode-Android [bundleRelease]" />
+        <item index="2" class="java.lang.String" itemvalue="Gradle.Anode-Android [compileReleaseJava]" />
         <item index="3" class="java.lang.String" itemvalue="Gradle.Anode-Android:anodeAndroid [packageReleaseLocalJar]" />
-        <item index="4" class="java.lang.String" itemvalue="Gradle.Anode-Android:anodeAndroid [packageDebugJar]" />
+        <item index="4" class="java.lang.String" itemvalue="Gradle.Anode-Android:anodeAndroid [packageReleaseJar]" />
       </list>
     </recent_temporary>
     <configuration name="&lt;template&gt;" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" default="true" selected="false">
@@ -1002,7 +1096,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="2513" height="1418" extended-state="6" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -1023,8 +1117,9 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1388102" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32846153" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.1388102" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32846153" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1044,6 +1139,104 @@
     <breakpoint-manager />
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/Anode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="40" selection-start="1681" selection-end="1681" vertical-scroll-proportion="0.0" vertical-offset="690" max-vertical-offset="1155">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="55" column="18" selection-start="1856" selection-end="1856" vertical-scroll-proportion="0.0" vertical-offset="825" max-vertical-offset="3930">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="20" selection-start="1143" selection-end="1143" vertical-scroll-proportion="0.0" vertical-offset="570" max-vertical-offset="7065">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeHttpClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="13" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0" vertical-offset="285" max-vertical-offset="1860">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="11" selection-start="281" selection-end="281" vertical-scroll-proportion="0.0" vertical-offset="165" max-vertical-offset="270">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeCache.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="143" column="35" selection-start="3984" selection-end="3984" vertical-scroll-proportion="0.0" vertical-offset="2145" max-vertical-offset="2730">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/utility/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="23" selection-start="543" selection-end="543" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="840">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="0" selection-start="311" selection-end="311" vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="315">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/anodeAndroid/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="39" column="0" selection-start="933" selection-end="933" vertical-scroll-proportion="0.0" vertical-offset="585" max-vertical-offset="675">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeCache.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="143" column="35" selection-start="3984" selection-end="3984" vertical-scroll-proportion="0.0" vertical-offset="2145" max-vertical-offset="2730">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/utility/Utils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="22" column="23" selection-start="543" selection-end="543" vertical-scroll-proportion="0.0" vertical-offset="330" max-vertical-offset="840">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/settings.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="0" column="0" selection-start="0" selection-end="0" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="105">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.gradle">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="15" column="0" selection-start="311" selection-end="311" vertical-scroll-proportion="0.0" vertical-offset="225" max-vertical-offset="315">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/anodeAndroid/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
         <state line="39" column="0" selection-start="933" selection-end="933" vertical-scroll-proportion="0.0" vertical-offset="585" max-vertical-offset="675">
@@ -1250,16 +1443,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/anodeAndroid/build.gradle">
+    <entry file="file://$PROJECT_DIR$/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="39" column="0" selection-start="933" selection-end="933" vertical-scroll-proportion="0.45990565" vertical-offset="0" max-vertical-offset="1272">
+        <state line="15" column="0" selection-start="311" selection-end="311" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/build.gradle">
+    <entry file="file://$PROJECT_DIR$/anodeAndroid/build.gradle">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="0" selection-start="311" selection-end="311" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="315">
+        <state line="39" column="0" selection-start="933" selection-end="933" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="675">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="11" column="11" selection-start="281" selection-end="281" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="270">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeObject.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="20" selection-start="1143" selection-end="1143" vertical-scroll-proportion="0.0" vertical-offset="5845" max-vertical-offset="6750">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeHttpClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="19" column="13" selection-start="581" selection-end="581" vertical-scroll-proportion="0.0" vertical-offset="408" max-vertical-offset="1680">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/Anode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="46" column="40" selection-start="1681" selection-end="1681" vertical-scroll-proportion="0.0" vertical-offset="0" max-vertical-offset="1155">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/anodeAndroid/src/main/java/com/builtbymoby/anode/AnodeClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="143" column="0" selection-start="4502" selection-end="4502" vertical-scroll-proportion="1.0118343" vertical-offset="825" max-vertical-offset="3465">
           <folding />
         </state>
       </provider>

@@ -144,7 +144,7 @@ public class AnodeObject extends AnodeClient implements Serializable {
 		try{
 		    return (Long)data.get(key);
 		}catch(ClassCastException cce){
-			return new Long((Integer)data.get(key));
+			return (long) (Integer) data.get(key);
 		}
 	}
 	
