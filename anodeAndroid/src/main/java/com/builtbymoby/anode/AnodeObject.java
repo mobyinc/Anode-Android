@@ -372,21 +372,32 @@ public class AnodeObject extends AnodeClient implements Serializable {
 			
 			if (value instanceof Date){
 				value = dateFormat.format(value);
-			} else if (value instanceof List) {
+			}
+			else if (value instanceof List) {
 				@SuppressWarnings("unchecked")
 				List<AnodeObject> list = (List<AnodeObject>)value;
+				String arrayKey = key + "_attributes";
+
 				JSONObject objectMap = new JSONObject();
 				
 				for (int i = 0; i < list.size(); i++) {
 					AnodeObject listObject = list.get(i);
+					String index = listObject.isNew() ? String.format("%d", i+100000000) : listObject.getObjectId().toString();
+
 					JSONObject listObjectJson = listObject.jsonRequestRepresentation(false);
-					String name = listObject.isNew() ? String.format("%d", i+100000000) : listObject.getObjectId().toString();
-					try { objectMap.putOpt(name, listObjectJson); } catch (JSONException e) { /* Oh well */ }
+					try { objectMap.putOpt(index, listObjectJson); } catch (JSONException e) { /* Oh well */ }
+
+					for (String nestedKey : listObject.files.keySet()) {
+						AnodeFile file = listObject.files.get(nestedKey);
+						String fileKey = String.format("[%s][%s]%s", arrayKey, index, nestedKey);
+						this.files.put(fileKey, file);
+					}
 				}
 				
 				key = key + "_attributes";
 				value = objectMap;
-			} else if (value instanceof AnodeObject) {
+			}
+			else if (value instanceof AnodeObject) {
 				// only supports setting the relationship to an existing (non-new) object
 				AnodeObject subObject = (AnodeObject)value;
 				
@@ -397,9 +408,10 @@ public class AnodeObject extends AnodeClient implements Serializable {
 					key = null;
 					value = null;
 				}
-			} else if (value instanceof AnodeFile) {
+			}
+			else if (value instanceof AnodeFile) {
 				// these will be sent as separate multi-part data
-				this.files.put(key, (AnodeFile)value);
+				this.files.put("[" + key + "]", (AnodeFile)value);
 				key = null;
 				value = null;
 			}

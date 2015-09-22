@@ -10,6 +10,9 @@ import ch.boye.httpclientandroidlib.StatusLine;
 import ch.boye.httpclientandroidlib.client.HttpClient;
 import ch.boye.httpclientandroidlib.client.methods.HttpUriRequest;
 import ch.boye.httpclientandroidlib.impl.client.DefaultHttpClient;
+
+import org.apache.http.HttpHost;
+import org.apache.http.conn.params.ConnRoutePNames;
 import org.json.JSONObject;
 
 import android.net.http.AndroidHttpClient;
@@ -57,6 +60,7 @@ public class AnodeHttpClient {
 		}
 		
 		public void run() {
+
 			HttpClient client = new DefaultHttpClient();
 			InputStream inputStream = null;
 

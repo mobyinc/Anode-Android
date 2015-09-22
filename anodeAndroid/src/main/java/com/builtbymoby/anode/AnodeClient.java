@@ -172,7 +172,7 @@ public class AnodeClient implements Serializable {
 		
 		for (String name : files.keySet()) {
 			AnodeFile file = files.get(name);
-			String formFieldName = type + "[" + name + "]";
+			String formFieldName = type + name;
 			builder.addPart(formFieldName, file);
 //			builder.addBinaryBody(file.getFileName(), file.getData());			
 		}
